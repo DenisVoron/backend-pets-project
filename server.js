@@ -2,9 +2,16 @@ const app = require('./app');
 
 const { PORT = 3000 } = process.env;
 
+const { connectMongo } = require('./src/db/connection');
 
 const start = async () => {
     try {
+        await connectMongo()
+            .catch(error => {
+                console.log(error.message);
+                process.exit(1);
+            })
+
         app.listen(PORT, (error) => {
             if (error) {
                 console.error('Error at server Launch:', error)
