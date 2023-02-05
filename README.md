@@ -11,7 +11,8 @@
 
 1. Процесс работы: Клонируете себе на ком репозиторий: git clone
    https://github.com/DenisVoron/backend-pets-project.git
-2. Создать и перейти в свою ветку git checkout -b "feature/название ветки"
+2. Создать и перейти в свою ветку git checkout -b "feature/название ветки", если
+   исправляем ошибки создаем ветку "bugfix/название бага"
 3. Сохранить коммит git add . и gitcommit -m "название коммита"
 4. Перейти в ветку main git checkout main Стянуть последние изменения git pull
 5. Если нет конфликтов, выполнить пуш git push
@@ -24,3 +25,5 @@
 
 9. Команди: npm start — старт сервера в режимі production
 10. npm run start:dev — старт сервера в режимі розробки (development)
+
+}, "engines": { "node": ">=8" } }
