@@ -1,6 +1,6 @@
 const app = require('./app');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 4041 } = process.env;
 
 
 const { connectMongo } = require('./src/db/connection');
