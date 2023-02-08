@@ -25,5 +25,3 @@
 
 9. Команди: npm start — старт сервера в режимі production
 10. npm run start:dev — старт сервера в режимі розробки (development)
-
-}, "engines": { "node": ">=8" } }

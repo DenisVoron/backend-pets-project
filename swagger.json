@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "2.0.0",
-    "title": "Swagger test",
-    "description": "Showing off swagger-ui-express",
+    "version": "2.0.1",
+    "title": "Pets backend documentation",
+    "description": "API documentation for pets project",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "https://pets-project.onrender.com" }],
+  "servers": [{ "url": "https://pets-project.onrender.com/api" }],
   "tags": [
     {
       "name": "Auth",
@@ -24,7 +24,6 @@
         "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
