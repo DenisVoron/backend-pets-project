@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "version": "2.0.1",
-    "title": "Pets backend documentation",
+    "title": "Pets back-end documentation",
     "description": "API documentation for pets project",
     "license": {
       "name": "MIT",
@@ -16,6 +16,10 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "Services",
+      "description": "Services-sidebar endpoints"
     }
   ],
   "paths": {
@@ -154,6 +158,72 @@
           }
         }
       }
+    },
+    "/auth/update": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "User update",
+        "parameters": [{
+          "in": "string",
+          "name": "Authorization",
+          "required" :true,
+          "type": "string",
+          "description": "The token issued to the current user."
+        }],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns updated user data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Changing the user's mail to an already existing one",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -196,8 +266,6 @@
         }
       },
       "RegistrationResponse": {
-        "type": "object",
-        "items": {
           "type": "object",
           "properties": {
             "email": {
@@ -222,8 +290,7 @@
             "description": "User's phone",
             "example": "+380671111111"
           }
-          }
-        },
+          },
         "example": [
           { 
             "email": "1@gmail.com", 
@@ -255,10 +322,6 @@
       },
       "LoginResponse": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
         "properties": {
           "token": {
             "type": "string",
@@ -284,6 +347,76 @@
           "status": {
             "type": "string",
             "description": "Success"
+          }
+        }
+      },
+      "UpdateRequest": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "format": "binary",
+            "description": "user's photo"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "09-17-2002"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Boby"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city",
+            "example": "Gorodok, Lviv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380671111111"
+          }
+        }
+      },
+      "UpdateResponse": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "format": "binary",
+            "description": "user's photo"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "09-17-2002"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Boby Swagger"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city",
+            "example": "Makeevka, Donetsk"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380671111111"
           }
         }
       },
