@@ -20,6 +20,14 @@
     {
       "name": "Services",
       "description": "Services-sidebar endpoints"
+    },
+    {
+      "name": "News",
+      "description": "News endpoints"
+    },
+    {
+      "name": "Notices",
+      "description": "Notices endpoints"
     }
   ],
   "paths": {
@@ -224,6 +232,84 @@
           }
         }
       }
+    },
+    "/services": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "Services-Sidebar",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": ["News"],
+        "summary": "Pets news",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -332,7 +418,7 @@
           "id": {
             "type": "string",
             "description": "User's id",
-            "example": "_id: objectid ('63e380c194de20f1761df4ae')"
+            "example": "_id : 63e380c194de20f1761df4ae"
           },
           "email": {
             "type": "string",
@@ -417,6 +503,77 @@
             "type": "string",
             "description": "User's phone",
             "example": "+380671111111"
+          }
+        }
+      },
+      "ServiceResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+            "properties": {
+            "_id": {
+              "type": "string",
+              "example": "63e35ecf9019e5da4cc5ec67"
+            },
+            "title": {
+              "type": "string",
+              "example": "Притулок для бездомних тварин 'Сіріус'"
+            },
+            "url": {
+              "type": "string",
+              "example": "https://uk-ua.facebook.com/NGO.Barbos/"
+            },
+            "addressUrl": {
+              "type": "string",
+              "example": "https://goo.gl/maps/iq8NXEUf31EAQCzc6"
+            },
+            "logo": {
+              "type": "string",
+              "example": "https://res.cloudinary.com/petlydata/image/upload/v1675185609/logo/logo2_cibuix.png"
+            },
+            "worktime": {
+              "type": "array"
+            },
+            "adress": {
+              "type": "string",
+              "example": "Grigorenka Street, 25"
+            },
+            "phone": {
+              "type": "string",
+              "example": "+380931934069"
+            },
+            "email": {
+              "type": "string",
+              "example": "barbos@gmail.com"
+            }
+          }
+        }
+      },
+      "NewsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+            "properties": {
+            "_id": {
+              "type": "string",
+              "example": "63e35ecf9019e5da4cc5ec67"
+            },
+            "title": {
+              "type": "string",
+              "example": "В День ветеринара в столиці пройде безкоштовний тренінг з надання першої допомоги тваринам"
+            },
+            "url": {
+              "type": "string",
+              "example": "https://www.kmlvm.com.ua/oberezhno-klishhi-yak-uberegty-ulyublentsya-vid-nepryyemnostej/"
+            },
+            "text": {
+              "type": "string",
+              "example": "Травневі прогулянки з улюбленцем не лише приємні, але й потребують пильності."
+            },
+            "date": {
+              "type": "string",
+              "example": "2022-05-04"
+            }
           }
         }
       },
