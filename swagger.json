@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "version": "2.0.1",
-    "title": "Pets backend documentation",
+    "title": "Pets back-end documentation",
     "description": "API documentation for pets project",
     "license": {
       "name": "MIT",
@@ -16,6 +16,18 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "Services",
+      "description": "Services-sidebar endpoints"
+    },
+    {
+      "name": "News",
+      "description": "News endpoints"
+    },
+    {
+      "name": "Notices",
+      "description": "Notices endpoints"
     }
   ],
   "paths": {
@@ -48,11 +60,23 @@
           },
           "400": {
             "description": "Bad request (invalid request body)",
-            "content": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           },
           "409": {
-            "description": "Provided email already exists",
-            "content": {}
+            "description": "User not created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -62,36 +86,227 @@
         "tags": ["Auth"],
         "summary": "User login",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
-          "description": "Registration's object",
+          "description": "Login object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "Successful operation",
+          "200": {
+            "description": "A token for the user is returned",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/LoginResponse"
                 }
               }
             }
           },
           "400": {
             "description": "Bad request (invalid request body)",
-            "content": {}
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           },
           "409": {
-            "description": "Provided email already exists",
-            "content": {}
+            "description": "Error login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [{
+          "in": "string",
+          "name": "Authorization",
+          "required" :true,
+          "type": "string",
+          "description": "The token issued to the current user."
+        }],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "204": {
+            "description": "Remove user's token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/logoutResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/update": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "User update",
+        "parameters": [{
+          "in": "string",
+          "name": "Authorization",
+          "required" :true,
+          "type": "string",
+          "description": "The token issued to the current user."
+        }],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns updated user data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Changing the user's mail to an already existing one",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "tags": ["Services"],
+        "summary": "Services-Sidebar",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/news": {
+      "get": {
+        "tags": ["News"],
+        "summary": "Pets news",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -101,7 +316,83 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password",
+          "name",
+          "city",
+          "phone"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Boby"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city",
+            "example": "Gorodok, Lviv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380671111111"
+          }
+        }
+      },
+      "RegistrationResponse": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+            "password": {
+              "type": "string",
+              "description": "User's password"
+            },
+            "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380671111111"
+          }
+          },
+        "example": [
+          { 
+            "email": "1@gmail.com", 
+            "password": "123456", 
+            "name":"Boby",
+            "city": "Borispol, Kiev",
+            "phone": "+380671111111"
+          }
+        ]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -115,26 +406,187 @@
           }
         }
       },
-      "RegistrationResponse": {
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "format": "JWT",
+            "description": "User's token",
+            "example": "iyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2Q5OGQ0ZWM1NzQ3ZjVjNDg0YjVlMSIsImlhdCI6MTY3NDQxODcyOCwiZXhwIjoxNjc0NDIyMzI4fQ.qmrt-kGVp-uJrhmBUt7NKLfBIhjGO7KvJC9KmX6Ujc8"
+          },
+          "id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "_id : 63e380c194de20f1761df4ae"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+      "logoutResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Success"
+          }
+        }
+      },
+      "UpdateRequest": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "format": "binary",
+            "description": "user's photo"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "09-17-2002"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Boby"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city",
+            "example": "Gorodok, Lviv"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380671111111"
+          }
+        }
+      },
+      "UpdateResponse": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "format": "binary",
+            "description": "user's photo"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "09-17-2002"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Boby Swagger"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city",
+            "example": "Makeevka, Donetsk"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380671111111"
+          }
+        }
+      },
+      "ServiceResponse": {
         "type": "array",
         "items": {
           "type": "object",
-          "properties": {
+            "properties": {
+            "_id": {
+              "type": "string",
+              "example": "63e35ecf9019e5da4cc5ec67"
+            },
+            "title": {
+              "type": "string",
+              "example": "Притулок для бездомних тварин 'Сіріус'"
+            },
+            "url": {
+              "type": "string",
+              "example": "https://uk-ua.facebook.com/NGO.Barbos/"
+            },
+            "addressUrl": {
+              "type": "string",
+              "example": "https://goo.gl/maps/iq8NXEUf31EAQCzc6"
+            },
+            "logo": {
+              "type": "string",
+              "example": "https://res.cloudinary.com/petlydata/image/upload/v1675185609/logo/logo2_cibuix.png"
+            },
+            "worktime": {
+              "type": "array"
+            },
+            "adress": {
+              "type": "string",
+              "example": "Grigorenka Street, 25"
+            },
+            "phone": {
+              "type": "string",
+              "example": "+380931934069"
+            },
             "email": {
               "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "userId": {
-              "type": "number",
-              "description": "User's id",
-              "example": "32143232436545474"
+              "example": "barbos@gmail.com"
             }
           }
+        }
+      },
+      "NewsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+            "properties": {
+            "_id": {
+              "type": "string",
+              "example": "63e35ecf9019e5da4cc5ec67"
+            },
+            "title": {
+              "type": "string",
+              "example": "В День ветеринара в столиці пройде безкоштовний тренінг з надання першої допомоги тваринам"
+            },
+            "url": {
+              "type": "string",
+              "example": "https://www.kmlvm.com.ua/oberezhno-klishhi-yak-uberegty-ulyublentsya-vid-nepryyemnostej/"
+            },
+            "text": {
+              "type": "string",
+              "example": "Травневі прогулянки з улюбленцем не лише приємні, але й потребують пильності."
+            },
+            "date": {
+              "type": "string",
+              "example": "2022-05-04"
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Any validation error"
+          }
         },
-        "example": [
-          { "email": "1@gmail.com", "userId": "1" },
-          { "email": "2@gmail.com", "userId": "2" }
+        "required": [
+          "message"
         ]
       }
     },
