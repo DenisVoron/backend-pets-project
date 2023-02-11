@@ -1,9 +1,6 @@
 const { User } = require('../../models');
 const { uploadToCloudinary } = require('../../helpers');
 
-const path = require('path');
-const fs = require('fs/promises');
-
 const updateUser = async (req, res) => {
   const { _id } = req.user;
   const { avatarURL, name, email, birthday, phone, city } = req.body;
@@ -18,7 +15,6 @@ const updateUser = async (req, res) => {
       );
       res.json({ result });
     } catch (error) {
-      await fs.unlink(tempUpload);
       throw error;
     }
   } else {
