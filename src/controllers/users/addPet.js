@@ -1,21 +1,28 @@
 const { Pet } = require('../../models');
 const { uploadToCloudinary } = require('../../helpers');
 
-const addPet = async (req, res, next) => {
+
+const addPet = async (req, res) => {
   const { _id } = req.user;
-  const { photo } = req.body;
+  
+    if (req.file) {
+        const {path, fieldname, filename} = req.file;
+        const {url: photoPet} = await uploadToCloudinary(path, fieldname, filename);
 
-  if (photo) {
-    req.body.petPhoto = await uploadToCloudinary(avatarURL, 'petsPhotos', 320, 320);
-  }
+        const result = await Pet.create({...req.body, photoPet, owner: _id});
 
-  const result = await Pet.create({ ...req.body, owner: _id });
+        return res.status(201).json({
+            message: 'Pet added',
+            pet: result
+        });
+    };
 
-  res.status(201).json({
-    status: 'Pet added',
-    code: 201,
-    result,
-  });
+    const result = await Pet.create({...req.body, owner: _id});
+    
+    res.status(201).json({
+        message: 'Pet added',
+        pet: result
+    });
 };
 
 module.exports = addPet;

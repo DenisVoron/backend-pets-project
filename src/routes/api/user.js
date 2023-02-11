@@ -7,16 +7,16 @@ const { validation, authentication, ctrlWrapper, upload } = require('../../middl
 
 const { joiSchema } = require('../../models/pet');
 
-router.get('/current', authentication, ctrlWrapper(ctrl.currentPet));
+router.get('/pet/current', authentication, ctrlWrapper(ctrl.currentPet));
 
 router.post(
-  '/add',
+  '/pet/add',
   authentication,
-  upload.single('photoUrl'),
+  upload.single('photoPet'),
   validation(joiSchema),
   ctrlWrapper(ctrl.addPet)
 );
 
-router.delete('/:Id', authentication, ctrlWrapper(ctrl.removePet));
+router.delete('/pet/:Id', authentication, ctrlWrapper(ctrl.removePet));
 
 module.exports = router;
