@@ -38,8 +38,6 @@ const serviceSchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
-// const servicesJoiSchema = Joi.object({});
-
 const Services = model('service', serviceSchema);
 
 module.exports = {

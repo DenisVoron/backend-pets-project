@@ -7,5 +7,5 @@ module.exports = {
   auth,
   news,
   services,
-  notices
+  notices,
 };
