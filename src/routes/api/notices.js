@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const { notices: ctrl } = require('../../controllers/');
+const { notices: ctrl } = require('../../controllers');
+
+// const { joiNoticeSchema } = require('../../models/notices');
+
 const {
-  authentication,
-  validation,
-  ctrlWrapper,
+    authentication,
+    upload,
+    ctrlWrapper,
+    validateNoticeForm
 } = require('../../middlewares');
-const { joiNoticeSchema } = require('../../models/notices');
 
 router.get('/:category', ctrlWrapper(ctrl.getNoticesByCategory));
 router.get('/id/:id', ctrlWrapper(ctrl.getNoticeById));
@@ -17,4 +20,13 @@ router.patch(
   ctrlWrapper(ctrl.addFavoriteNotice)
 );
 
+router.post(
+    "/notice",
+    authentication,
+    upload.single("avatar"),
+    validateNoticeForm,
+    ctrlWrapper(ctrl.addNotice)
+);
+
 module.exports = router;
+
