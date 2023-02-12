@@ -1,6 +1,6 @@
 const uploadToCloudinary = require('./uploadToCloudinary');
 const handleMongooseError = require('./handleMongooseError');
-const HttpError = require('./httpError');
+const HttpError = require('./httpErrors');
 
 module.exports = {
     uploadToCloudinary,
