@@ -3,7 +3,6 @@ const { Services } = require('./services');
 const { News } = require('./news');
 const { Pet } = require('./pet');
 
-const { Notice } = require('./notice');
 const { Notice } = require('./notices');
 
 module.exports = {
