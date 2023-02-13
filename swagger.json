@@ -28,6 +28,10 @@
     {
       "name": "Notices",
       "description": "Notices endpoints"
+    },
+    {
+      "name": "Pets",
+      "description": "Petly endpoints"
     }
   ],
   "paths": {
@@ -641,6 +645,127 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/notices/user/ads": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Returns all messages created by an authorized user",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of all notices created by an authorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesCurrentUser"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+               "schema": {
+                "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Not found"
+            }
+          }
+        }
+          }
+        }
+      }
+    },
+    "/notices/user/{id}": {
+      "delete": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Deleting notice of an authorized user was added by him",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Notice's id",
+              "example": "63d9c87277ab211223ccd24d"
+            },
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notice deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Notice deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid id",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                 },
+                 "example": {
+                   "message": "Invalid id"
+                 }
+               }
+             }
+          },
+          "401": {
+            "description": "User not authorized",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                },
+                 "example": {
+                   "message": "Not"
+                 }
+               }
+             }
+          },
+          "404": {
+            "description": "Not found",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                 },
+                 "example": {
+                   "message": "Not found"
+                 }
+               }
+             }
           }
         }
       }
@@ -1276,6 +1401,127 @@
             "type": "string",
             "format": "uuid",
             "description": "The Id of the user who created the notice",
+            "example": "63e4094da8d79b62be09b05a"
+          }
+        },
+        "example": [
+          {
+            "avatar": {
+              "public_id": "notices/63d9c88177ab211223ccd259.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217026/notices/63d9c88177ab211223ccd259.png.png"
+            },
+            "_id": "63d9c88177ab211223ccd259",
+            "category": "ingoodhands",
+            "title": "Сute cat looking for a home",
+            "birthdate": "2021-09-21T00:00:00.000Z",
+            "breed": "Burmese",
+            "location": "Lviv, Lviv",
+            "price": null,
+            "owner": "63e4094da8d79b62be09b05a"
+          },
+          {
+            "avatar": {
+              "public_id": "notices/63d9c87277ab211223ccd24d.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+            },
+            "_id": "63d9c87277ab211223ccd24d",
+            "category": "sell",
+            "title": "Сute dog looking for a home",
+            "birthdate": "8-22-2021",
+            "breed": "Border Terrier",
+            "location": "Lviv, Lviv",
+            "price": 350,
+            "owner": "63e4094da8d79b62be09b05a"
+          },
+          {
+            "avatar": {
+              "public_id": "notices/63d9c88177ab211223ccd259.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217026/notices/63d9c88177ab211223ccd259.png.png"
+            },
+            "_id": "63d9c88177ab211223ccd259",
+            "category": "lostfound",
+            "title": "Сute cat looking for a home",
+            "birthdate": "2021-09-21T00:00:00.000Z",
+            "breed": "Burmese",
+            "location": "Lutsk, Lutsk",
+            "price": null,
+            "owner": "63e4094da8d79b62be09b05a"
+          }
+        ]
+      },
+      "NoticesCurrentUser": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "avatar": {
+            "type": "object",
+            "properties": {
+              "public_id": {
+                "type": "string",
+                "description": "public ID on Cloudinary",
+                "example": "notices/63d9c87277ab211223ccd24d.png"
+              },
+              "url": {
+                "type": "string",
+                "description": "Url to file on Cloudinary",
+                "example": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+              }
+            }
+          },
+          "_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Notice's id",
+            "example": "63d9c87277ab211223ccd24d"
+          },
+          "category": {
+            "type": "string",
+            "description": "Notice's category",
+            "enum": ["sell", "lostfound", "ingoodhands"],
+            "example": "sell"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notice's title",
+            "example": "Сute dog looking for a home,"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "Pet's birthday",
+            "example": "8-22-2021"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+            "example": "Border Terrier"
+          },
+          "location": {
+            "type": "string",
+            "description": "Location (city, region)",
+            "example": "Lviv,Lviv"
+          },
+          "price": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Sale price of the pet"
+              },
+              {
+                "type": "integer",
+                "nullable": true,
+                "description": "No price for category: \"ingoodhands\" and \"lostfound\""
+              }
+            ],
+            "example": 350
+          },
+          "owner": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User's identificator",
             "example": "63e4094da8d79b62be09b05a"
           }
         },
