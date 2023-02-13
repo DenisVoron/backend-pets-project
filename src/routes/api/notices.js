@@ -7,15 +7,23 @@ const {
   authentication,
   upload,
   ctrlWrapper,
-  validateNoticeForm
+  validateNoticeForm,
 } = require('../../middlewares');
 
 router.get('/:category', ctrlWrapper(ctrl.getNoticesByCategory));
+
 router.get('/id/:id', ctrlWrapper(ctrl.getNoticeById));
+
 router.patch(
   '/favorite/:id',
   authentication,
   ctrlWrapper(ctrl.addFavoriteNotice)
+);
+
+router.delete(
+  '/favorite/:id',
+  authentication,
+  ctrlWrapper(ctrl.removeFavoriteNotice)
 );
 
 router.post(
@@ -32,5 +40,7 @@ router.get(
   ctrlWrapper(ctrl.getUserFavorites)
 );
 
-module.exports = router;
+router.get('/user/ads', authentication, ctrlWrapper(ctrl.getNoticesByUser));
+router.delete('/user/:id', authentication, ctrlWrapper(ctrl.removeUserNotice));
 
+module.exports = router;
