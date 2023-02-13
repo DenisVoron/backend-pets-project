@@ -12,7 +12,7 @@ module.exports = {
   getNoticeById,
   addFavoriteNotice,
   addNotice,
-  getUserFavorites
+  getUserFavorites,
   removeFavoriteNotice,
   getNoticesByUser,
   removeUserNotice,
