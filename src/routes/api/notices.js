@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const { notices: ctrl } = require('../../controllers');
-
-// const { joiNoticeSchema } = require('../../models/notices');
-
 const {
   authentication,
   upload,
@@ -35,5 +32,8 @@ router.post(
   validateNoticeForm,
   ctrlWrapper(ctrl.addNotice)
 );
+
+router.get('/user/ads', authentication, ctrlWrapper(ctrl.getNoticesByUser));
+router.delete('/user/:id', authentication, ctrlWrapper(ctrl.removeUserNotice));
 
 module.exports = router;
