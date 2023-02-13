@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { notices: ctrl } = require('../../controllers');
+
 const {
   authentication,
   upload,
@@ -26,11 +27,17 @@ router.delete(
 );
 
 router.post(
-  '/notice',
+  "/notice",
   authentication,
-  upload.single('avatar'),
+  upload.single("avatar"),
   validateNoticeForm,
   ctrlWrapper(ctrl.addNotice)
+);
+
+router.get(
+  "/notice/favorite",
+  authentication,
+  ctrlWrapper(ctrl.getUserFavorites)
 );
 
 router.get('/user/ads', authentication, ctrlWrapper(ctrl.getNoticesByUser));

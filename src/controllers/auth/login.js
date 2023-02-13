@@ -28,11 +28,6 @@ const login = async (req, res) => {
     code: 200,
     data: {
       result,
-      // token,
-      // user: {
-      //   id: user._id,
-      //   email,
-      // },
     },
   });
 };
