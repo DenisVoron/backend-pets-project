@@ -3,13 +3,11 @@ const router = express.Router();
 
 const { notices: ctrl } = require('../../controllers');
 
-// const { joiNoticeSchema } = require('../../models/notices');
-
 const {
-    authentication,
-    upload,
-    ctrlWrapper,
-    validateNoticeForm
+  authentication,
+  upload,
+  ctrlWrapper,
+  validateNoticeForm
 } = require('../../middlewares');
 
 router.get('/:category', ctrlWrapper(ctrl.getNoticesByCategory));
@@ -21,11 +19,17 @@ router.patch(
 );
 
 router.post(
-    "/notice",
-    authentication,
-    upload.single("avatar"),
-    validateNoticeForm,
-    ctrlWrapper(ctrl.addNotice)
+  "/notice",
+  authentication,
+  upload.single("avatar"),
+  validateNoticeForm,
+  ctrlWrapper(ctrl.addNotice)
+);
+
+router.get(
+  "/notice/favorite",
+  authentication,
+  ctrlWrapper(ctrl.getUserFavorites)
 );
 
 module.exports = router;

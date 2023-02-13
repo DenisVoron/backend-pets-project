@@ -480,6 +480,138 @@
           }
         }
       },
+      "delete": {
+        "tags": ["Notices"],
+        "summary": "Deleting a notice from the favorite list authorized user",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Notice's id",
+              "example": "63d9c87277ab211223ccd24d"
+            },
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The notice has been removed from favorites list the authorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "The notice deleted with favorites list"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. the notice is not in the favorite list authorize user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "the notice is not in the favorite list authorize user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "message": "Not"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Not found"
+            }
+          }
+        }
+          }
+        }
+      }
+    },
+    "/notices/notice": {
+      "post": {
+        "tags": ["Notices"],
+        "summary": "Creates a new notice",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": null,
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/NoticeBodyToCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Повертає новостворене оголошення",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewNoticeBody"
+                },
+                "examples": {
+                  "Category 'Sell'": {
+                    "$ref": "#/components/examples/NoticeCreatedSellCategory"
+                  },
+                  "Category 'lostfound'": {
+                    "$ref": "#/components/examples/NoticeCreatedLostfoundCategory"
+                  },
+                  "Category 'ingoodhands'": {
+                    "$ref": "#/components/examples/NoticeCreatedIngoodhandsCategory"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400-BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401-NotAutorized"
+          }
+        }
+      }
+    },
+    "/notices/notice/favorite":{
       "get": {
         "tags": ["Notices"],
         "summary": "Returns a list of the user's favorite notices",
@@ -512,8 +644,7 @@
           }
         }
       }
-    },
-    "/notices/favorite":{}
+    }
   },
   "components": {
     "schemas": {
@@ -900,6 +1031,82 @@
             "owner": "63e4094da8d79b62be09b05a"
           }
         ]
+      },
+      "NoticeBodyToCreate": {
+        "type": "object",
+        "required": [
+          "category",
+          "title",
+          "sex",
+          "location",
+          "comments"
+        ],
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "User's photo"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category of notice. Can be sell, lostfound or ingoodhands",
+            "enum": ["sell", "lostfound", "ingoodhands"],
+            "example": "sell"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the notice",
+            "example": "Сute dog looking for a home,"
+          },
+          "name": {
+            "type": "string",
+            "description": "Pet's name",
+            "example": "Rich"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "Pet's birthday",
+            "example": "2021-09-21T00:00:00.000Z"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+            "example": "Border Terrier"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Pet's sex",
+            "enum": ["male", "female"],
+            "example": "male"
+          },
+          "location": {
+            "type": "string",
+            "description": "location (city, region)",
+            "example": "Lviv,Lviv"
+          },
+          "price": {
+            "description": "Can be any additional integer for category 'sell' or not send for another category",
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Sale price of the pet"
+              },
+              {
+                "type": "integer",
+                "nullable": true,
+                "description": "No price for category: \"ingoodhands\" and \"lostfound\""
+              }
+            ],
+            "example": [350, null]
+          },
+          "comments": {
+            "type": "string",
+            "description": "Notice's comments",
+            "example": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
+          }
+        }
       },
       "ResponseNoticeById": {
         "type": "object",
