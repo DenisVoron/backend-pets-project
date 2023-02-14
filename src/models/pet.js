@@ -1,6 +1,8 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 
+const regexp = /^[a-z ,.'-]+$/i;
+
 const petSchema = new Schema(
   {
     name: {
@@ -33,10 +35,10 @@ const petSchema = new Schema(
 );
 
 const joiSchema = Joi.object({
-  name: Joi.string().required(),
+  name: Joi.string().required().pattern(regexp),
   birthday: Joi.string().required(),
-  breed: Joi.string().required(),
-  photo: Joi.string(),
+  breed: Joi.string().required().pattern(regexp),
+  photoPet: Joi.string(),
   comments: Joi.string().min(10).max(100).required(),
 });
 
