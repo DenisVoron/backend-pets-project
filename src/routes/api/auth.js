@@ -10,6 +10,7 @@ const {
   joiRegisterSchema,
   joiLoginSchema,
   updateUserSchema,
+  joiRefreshSchema,
 } = require('../../models/user');
 
 const router = express.Router();
@@ -30,6 +31,12 @@ router.patch(
   upload.single('avatar'),
   validation(updateUserSchema),
   ctrlWrapper(ctrl.updateUser)
+);
+
+router.post(
+  '/refresh',
+  validation(joiRefreshSchema),
+  ctrlWrapper(ctrl.refreshToken)
 );
 
 router.post('/verification', ctrlWrapper(ctrl.verificationEmail));
