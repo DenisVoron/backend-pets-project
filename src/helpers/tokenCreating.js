@@ -3,7 +3,7 @@ const { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } = process.env;
 
 const tokenCreating = payload => {
   const accessToken = jwt.sign(payload, ACCESS_JWT_SECRET, {
-    expiresIn: '6h',
+    expiresIn: '12h',
   });
 
   const refreshToken = jwt.sign(payload, REFRESH_JWT_SECRET, {
