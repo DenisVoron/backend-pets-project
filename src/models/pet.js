@@ -35,9 +35,9 @@ const petSchema = new Schema(
 );
 
 const joiSchema = Joi.object({
-  name: Joi.string().required().pattern(regexp),
+  name: Joi.string().pattern(regexp).required(),
   birthday: Joi.string().required(),
-  breed: Joi.string().required().pattern(regexp),
+  breed: Joi.string().pattern(regexp).required(),
   photoPet: Joi.string(),
   comments: Joi.string().min(10).max(100).required(),
 });
