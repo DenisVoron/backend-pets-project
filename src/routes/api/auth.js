@@ -32,4 +32,6 @@ router.patch(
   ctrlWrapper(ctrl.updateUser)
 );
 
+router.post('/verification', ctrlWrapper(ctrl.verificationEmail));
+
 module.exports = router;
