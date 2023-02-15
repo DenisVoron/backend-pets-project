@@ -45,7 +45,11 @@ const userSchema = new Schema(
     avatarURL: {
       type: String,
     },
-    token: {
+    accessToken: {
+      type: String,
+      default: null,
+    },
+    refreshToken: {
       type: String,
       default: null,
     },
@@ -67,6 +71,10 @@ const joiLoginSchema = Joi.object({
   email: Joi.string().email().pattern(emailRegexp).required(),
 });
 
+const joiRefreshSchema = Joi.object({
+  refreshToken: Joi.string().required(),
+});
+
 const updateUserSchema = Joi.object({
   name: Joi.string().pattern(nameRegexp),
   email: Joi.string().email().pattern(emailRegexp),
@@ -83,4 +91,5 @@ module.exports = {
   joiRegisterSchema,
   joiLoginSchema,
   updateUserSchema,
+  joiRefreshSchema,
 };

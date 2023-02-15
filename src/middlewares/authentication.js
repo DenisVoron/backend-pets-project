@@ -2,7 +2,7 @@ const { Unauthorized } = require('http-errors');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-const { SECRET_KEY } = process.env;
+const { ACCESS_JWT_SECRET } = process.env;
 
 const authentication = async (req, res, next) => {
   const { authorization = '' } = req.headers;
@@ -11,9 +11,9 @@ const authentication = async (req, res, next) => {
     if (bearer !== 'Bearer') {
       throw new Unauthorized('Not authorized');
     }
-    const { id } = jwt.verify(token, SECRET_KEY);
+    const { id } = jwt.verify(token, ACCESS_JWT_SECRET);
     const user = await User.findById(id);
-    if (!user || !user.token || token !== String(user.token)) {
+    if (!user || !user.accessToken || token !== String(user.accessToken)) {
       throw new Unauthorized('Not authorized');
     }
     req.user = user;
