@@ -11,8 +11,8 @@ const removePet = async (req, res, next) => {
   }
 
   res.json({
-    status: 'Pet deleted',
-    code: 200,
+    status: 'No Content',
+    code: 204,
     result,
   });
 };

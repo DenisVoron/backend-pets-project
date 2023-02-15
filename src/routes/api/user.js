@@ -8,6 +8,7 @@ const { validation, authentication, ctrlWrapper, upload } = require('../../middl
 const { joiSchema } = require('../../models/pet');
 
 router.get('/pet/current', authentication, ctrlWrapper(ctrl.currentPet));
+router.get('/user/current', authentication, ctrlWrapper(ctrl.currentUser));
 
 router.post(
   '/pet/add',

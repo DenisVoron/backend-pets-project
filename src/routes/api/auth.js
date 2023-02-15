@@ -39,4 +39,6 @@ router.post(
   ctrlWrapper(ctrl.refreshToken)
 );
 
+router.post('/verification', ctrlWrapper(ctrl.verificationEmail));
+
 module.exports = router;

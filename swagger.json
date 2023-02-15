@@ -28,6 +28,14 @@
     {
       "name": "Notices",
       "description": "Notices endpoints"
+    },
+    {
+      "name": "Pets",
+      "description": "Petly endpoints"
+    },
+    {
+      "name": "User_Pets",
+      "description": "User-Pets endpoints"
     }
   ],
   "paths": {
@@ -644,6 +652,329 @@
           }
         }
       }
+    },
+    "/notices/user/ads": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Returns all messages created by an authorized user",
+        "parameters": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of all notices created by an authorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoticesCurrentUser"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+               "schema": {
+                "$ref": "#/components/schemas/Error"
+            },
+            "example": {
+              "message": "Not found"
+            }
+          }
+        }
+          }
+        }
+      }
+    },
+    "/notices/user/{id}": {
+      "delete": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Deleting notice of an authorized user was added by him",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Notice's id",
+              "example": "63d9c87277ab211223ccd24d"
+            },
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notice deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Notice deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid id",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                 },
+                 "example": {
+                   "message": "Invalid id"
+                 }
+               }
+             }
+          },
+          "401": {
+            "description": "User not authorized",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                },
+                 "example": {
+                   "message": "Not"
+                 }
+               }
+             }
+          },
+          "404": {
+            "description": "Not found",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                 },
+                 "example": {
+                   "message": "Not found"
+                 }
+               }
+             }
+          }
+        }
+      }
+    },
+    "/users/pet/add": {
+      "post": {
+        "tags": ["Pets"],
+        "summary": "Add pets",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "Object of user pet",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/addPet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewPet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid id",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                 },
+                 "example": {
+                   "message": "Invalid id"
+                 }
+               }
+             }
+          },
+          "401": {
+            "description": "User not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": "message: Server error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/pet/{id}": {
+      "delete": {
+        "tags": ["Pets"],
+        "summary": "Delete pets",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Pet's id"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": "Notice not found"
+              }
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": "message: Server error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/user/current":{
+      "get":{
+        "tags":[
+          "User_Pets"
+        ],
+        "summary": "Get current user",
+        
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserRes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": "message: Server error"
+              }
+            }
+          }
+        }
+    }
+    },
+    "/users/pet/current":{
+      "get":{
+        "tags":[
+          "User_Pets"
+        ],
+        "summary": "Get current user pets",
+        
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserPetRes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "example": "message: Server error"
+              }
+            }
+          }
+        }
+    }
     }
   },
   "components": {
@@ -1323,6 +1654,265 @@
             "owner": "63e4094da8d79b62be09b05a"
           }
         ]
+      },
+      "NoticesCurrentUser": {
+        "type": "array",
+        "items": {
+          "type": "object"
+        },
+        "properties": {
+          "avatar": {
+            "type": "object",
+            "properties": {
+              "public_id": {
+                "type": "string",
+                "description": "public ID on Cloudinary",
+                "example": "notices/63d9c87277ab211223ccd24d.png"
+              },
+              "url": {
+                "type": "string",
+                "description": "Url to file on Cloudinary",
+                "example": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+              }
+            }
+          },
+          "_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Notice's id",
+            "example": "63d9c87277ab211223ccd24d"
+          },
+          "category": {
+            "type": "string",
+            "description": "Notice's category",
+            "enum": ["sell", "lostfound", "ingoodhands"],
+            "example": "sell"
+          },
+          "title": {
+            "type": "string",
+            "description": "Notice's title",
+            "example": "Сute dog looking for a home,"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "Pet's birthday",
+            "example": "8-22-2021"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Pet's breed",
+            "example": "Border Terrier"
+          },
+          "location": {
+            "type": "string",
+            "description": "Location (city, region)",
+            "example": "Lviv,Lviv"
+          },
+          "price": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Sale price of the pet"
+              },
+              {
+                "type": "integer",
+                "nullable": true,
+                "description": "No price for category: \"ingoodhands\" and \"lostfound\""
+              }
+            ],
+            "example": 350
+          },
+          "owner": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User's identificator",
+            "example": "63e4094da8d79b62be09b05a"
+          }
+        },
+        "example": [
+          {
+            "avatar": {
+              "public_id": "notices/63d9c88177ab211223ccd259.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217026/notices/63d9c88177ab211223ccd259.png.png"
+            },
+            "_id": "63d9c88177ab211223ccd259",
+            "category": "ingoodhands",
+            "title": "Сute cat looking for a home",
+            "birthdate": "2021-09-21T00:00:00.000Z",
+            "breed": "Burmese",
+            "location": "Lviv, Lviv",
+            "price": null,
+            "owner": "63e4094da8d79b62be09b05a"
+          },
+          {
+            "avatar": {
+              "public_id": "notices/63d9c87277ab211223ccd24d.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+            },
+            "_id": "63d9c87277ab211223ccd24d",
+            "category": "sell",
+            "title": "Сute dog looking for a home",
+            "birthdate": "8-22-2021",
+            "breed": "Border Terrier",
+            "location": "Lviv, Lviv",
+            "price": 350,
+            "owner": "63e4094da8d79b62be09b05a"
+          },
+          {
+            "avatar": {
+              "public_id": "notices/63d9c88177ab211223ccd259.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675217026/notices/63d9c88177ab211223ccd259.png.png"
+            },
+            "_id": "63d9c88177ab211223ccd259",
+            "category": "lostfound",
+            "title": "Сute cat looking for a home",
+            "birthdate": "2021-09-21T00:00:00.000Z",
+            "breed": "Burmese",
+            "location": "Lutsk, Lutsk",
+            "price": null,
+            "owner": "63e4094da8d79b62be09b05a"
+          }
+        ]
+      },
+      "CurrentUserRes": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Notice's id",
+            "example": "63d9c87277ab211223ccd24d"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "user's email",
+            "example": "marta@gmail.com"
+          },
+          "name": {
+            "type": "string",
+            "description": "user's name",
+            "example": "marta"
+          },
+          "location": {
+            "type": "string",
+            "description": "user's location",
+            "example": "Kovel, Lutsk"
+          },
+          "phone": {
+            "type": "string",
+            "description": "user's phone",
+            "example": "+380631234321"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "User's birthdate",
+            "example": "1986-03-20T22:00:00.000+00:00"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "user's photo"
+          },
+          "favorite": {
+            "type": "array",
+            "description": "user's ads added to favorite ",
+            "example": ["63e155b5552a2f02a08e009f", "63dd7b4247642a3b99b5b5f2"]
+          }
+        }
+      },
+      "CurrentUserPetRes": {
+        "properties": {
+          "userPetsList": {
+            "type": "array",
+            "example": [
+              {
+                "_id": "63e24efd79bb76084b355870",
+                "name": "Tom",
+                "birthdate": "2020-10-20",
+                "breed": "street",
+                "photoPet": "https://us.123rf.com/450wm/naddya/naddya1701/naddya170100029/naddya170100029.jpg?ver=6",
+                "comments": "Good cat, love mouse",
+                "owner": "63e935ec595f3c9b855b5131"
+              },
+              {
+                 "_id": "63ea4a1aefa993e7125d6bc1",
+                 "name": "Tomy",
+                 "birthday": "2020-10-20",
+                 "breed": "Persian cat",
+                 "photoPet": "https://us.123rf.com/450wm/naddya/naddya1701/naddya170100029/naddya170100029.jpg?ver=6",
+                 "comments": "eeqweqwwqeqewqeqweewqew",
+                 "owner": "63e935ec595f3c9b855b5131"
+              }
+            ],
+            "description": "user's pets "
+          }
+        }
+      },
+      "addPet": {
+        "type": "object",
+        "required": ["name","birthdate","breed", "comments"],
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          },
+          "name": {
+            "type": "string",
+            "example": "Mars"
+          },
+          "birthdate": {
+            "type": "string",
+            "example": "2000-05-31T21:00:00.000Z"
+          },
+          "breed": {
+            "type": "string",
+            "example": "metis"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Good guard, smart"
+          }
+        }
+      },
+      "NewPet": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "object",
+            "example": {
+              "public_id": "pets/63e3664dfa566cd6471ca07c.png",
+              "url": "http://res.cloudinary.com/petlydata/image/upload/v1675847247/pets/63e3664dfa566cd6471ca07c.png.png"
+            }
+          },
+          "name": {
+            "type": "string",
+            "example": "Mars"
+          },
+          "birthday": {
+            "type": "string",
+            "example": "2000-12-01T21:00:00.000Z"
+          },
+          "breed": {
+            "type": "string",
+            "example": "metis"
+          },
+          "comments": {
+            "type": "string",
+            "example": "Good guard, smart"
+          },
+          "owner": {
+            "type": "string",
+            "example": "63e11fb9cc40d9212901319c"
+          },
+          "_id": {
+            "type": "string",
+            "example": "63e3664dfa566cd6471ca07c"
+          }
+        }
       },
       "Error": {
         "type": "object",
