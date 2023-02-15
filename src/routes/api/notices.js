@@ -27,15 +27,15 @@ router.delete(
 );
 
 router.post(
-  "/notice",
+  '/notice',
   authentication,
-  upload.single("avatar"),
+  upload.single('avatar'),
   validateNoticeForm,
   ctrlWrapper(ctrl.addNotice)
 );
 
 router.get(
-  "/notice/favorite",
+  '/notice/favorite',
   authentication,
   ctrlWrapper(ctrl.getUserFavorites)
 );
