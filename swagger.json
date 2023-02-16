@@ -241,6 +241,52 @@
         }
       }
     },
+    "/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh token",
+        "parameters": [{
+          "in": "string",
+          "name": "Authorization",
+          "required" :true,
+          "type": "string",
+          "description": "The token issued to the current user."
+        }],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Returns updated user data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User not authorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/services": {
       "get": {
         "tags": ["Services"],
@@ -1074,7 +1120,7 @@
       "LoginResponse": {
         "type": "object",
         "properties": {
-          "token": {
+          "accessToken": {
             "type": "string",
             "format": "JWT",
             "description": "User's token",
@@ -1168,6 +1214,58 @@
             "type": "string",
             "description": "User's phone",
             "example": "+380671111111"
+          }
+        }
+      },
+      "RefreshTokenResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "_id : 63e380c194de20f1761df4ae"
+          },
+          "password":{
+            "type": "string",
+            "description": "password hash",
+            "example": "$2a$10$0N36jbNnv3XgPfw.c3dug.WI8dS8SgRh9erEDpiIDhLaeBxFVpNPa"
+          },
+          "avatarURL": {
+            "type": "string",
+            "format": "binary",
+            "description": "user's photo"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Boby Swagger"
+          },
+          "city": {
+            "type": "string",
+            "description": "User's city",
+            "example": "Makeevka, Donetsk"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "+380671111111"
+          },
+          "favorite":{
+            "type": "array",
+            "description": "list favorite"
+          },
+          "accessToken":{
+            "type": "string",
+            "description": "token"
+          },
+          "refreshToken":{
+            "type": "string",
+            "description": "token"
           }
         }
       },
