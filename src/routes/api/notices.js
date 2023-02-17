@@ -43,4 +43,6 @@ router.get(
 router.get('/user/ads', authentication, ctrlWrapper(ctrl.getNoticesByUser));
 router.delete('/user/:id', authentication, ctrlWrapper(ctrl.removeUserNotice));
 
+router.get('/search/keyword', ctrlWrapper(ctrl.getNoticeByKeyword));
+
 module.exports = router;
