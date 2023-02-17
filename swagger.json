@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "version": "2.0.1",
+    "version": "2.0.7",
     "title": "Pets back-end documentation",
     "description": "API documentation for pets project",
     "license": {
@@ -9,7 +9,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json"],
+  "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
   "servers": [{ "url": "https://pets-project.onrender.com/api" }],
   "tags": [
@@ -143,24 +143,12 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
-        "parameters": [{
-          "in": "string",
-          "name": "Authorization",
-          "required" :true,
-          "type": "string",
-          "description": "The token issued to the current user."
-        }],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "responses": {
           "204": {
             "description": "Remove user's token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/logoutResponse"
-                }
-              }
-            }
+            "content": {}
           },
           "401": {
             "description": "Missing header with authorization token.",
@@ -179,13 +167,7 @@
       "patch": {
         "tags": ["Auth"],
         "summary": "User update",
-        "parameters": [{
-          "in": "string",
-          "name": "Authorization",
-          "required" :true,
-          "type": "string",
-          "description": "The token issued to the current user."
-        }],
+        "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Update object",
@@ -253,6 +235,17 @@
           "description": "The token issued to the current user."
         }],
         "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Token object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Returns updated user data",
@@ -379,6 +372,18 @@
             },
             "required": true,
             "description": "One category with ['sell','ingoodhands','lostfound']"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "type": "string",
+            "description": "Skip page, default = 1"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "type": "string",
+            "description": "Limit per page, default = 8"
           }
         ],
         "responses": {
@@ -1138,15 +1143,6 @@
           }
         }
       },
-      "logoutResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "Success"
-          }
-        }
-      },
       "UpdateRequest": {
         "type": "object",
         "properties": {
@@ -1163,7 +1159,7 @@
           "birthday": {
             "type": "string",
             "description": "User's birthday",
-            "example": "09-17-2002"
+            "example": "09.07.2002"
           },
           "name": {
             "type": "string",
@@ -1214,6 +1210,19 @@
             "type": "string",
             "description": "User's phone",
             "example": "+380671111111"
+          }
+        }
+      },
+      "RefreshTokenRequest": {
+        "type": "object",
+        "required": [
+          "refreshToken"
+        ],
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "description": "refreshToken",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZTM4MGMxOTRkZTIwZjE3NjFkZjRhZSIsImlhdCI6MTY3NjYzMTI2MSwiZXhwIjoxNjc2NzE3NjYxfQ.nbQlCrbwRFABtjmJop6g5C8HMRqiyzsd1akMoNbh378"
           }
         }
       },
