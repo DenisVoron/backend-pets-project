@@ -629,7 +629,7 @@
           }
         ],
         "requestBody": {
-          "description": null,
+          "description": "Сreates object",
           "required": true,
           "content": {
             "multipart/form-data": {
@@ -640,32 +640,38 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Повертає новостворене оголошення",
+          "201": {
+            "description": "Returns the new created notice",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/NewNoticeBody"
-                },
-                "examples": {
-                  "Category 'Sell'": {
-                    "$ref": "#/components/examples/NoticeCreatedSellCategory"
-                  },
-                  "Category 'lostfound'": {
-                    "$ref": "#/components/examples/NoticeCreatedLostfoundCategory"
-                  },
-                  "Category 'ingoodhands'": {
-                    "$ref": "#/components/examples/NoticeCreatedIngoodhandsCategory"
-                  }
                 }
               }
             }
           },
           "400": {
-            "$ref": "#/components/responses/400-BadRequest"
+             "description": "Bad request. Validation error",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                 }
+               }
+             }
           },
           "401": {
-            "$ref": "#/components/responses/401-NotAutorized"
+            "description": "User not authorized",
+             "content": {
+               "application/json": {
+                 "schema": {
+                   "$ref": "#/components/schemas/Error"
+                 },
+                 "example": {
+                   "message": "Not"
+                 }
+               }
+             }
           }
         }
       }
@@ -1504,7 +1510,7 @@
           "birthdate": {
             "type": "string",
             "format": "date",
-            "description": "Pet's birthday",
+            "description": "Pet's birthday. example 2022-06-11T11:07:49.000Z",
             "example": "2021-09-21T00:00:00.000Z"
           },
           "breed": {
@@ -1543,6 +1549,92 @@
             "type": "string",
             "description": "Notice's comments",
             "example": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
+          }
+        }
+      },
+      "NewNoticeBody": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "object",
+            "properties": {
+              "public_id": {
+                "type": "string",
+                "description": "public ID on Cloudinary",
+                "example": "63d9c87277ab211223ccd24d"
+              },
+              "url": {
+                "type": "string",
+                "description": "Url to file on Cloudinary",
+                "example": "http://res.cloudinary.com/petlydata/image/upload/v1675217011/notices/63d9c87277ab211223ccd24d.png.png"
+              }
+            }
+          },
+          "_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Notice's id",
+            "example": "63d9c87277ab211223ccd24d"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["sell", "lostfound", "ingoodhands"]
+          },
+          "title": {
+            "type": "string",
+            "description": "The name of the message",
+            "example": "Сute dog looking for a home,"
+          },
+          "name": {
+            "type": "string",
+            "description": "null",
+            "example": "Rich"
+          },
+          "sex": {
+            "type": "string",
+            "enum": ["male", "female"],
+            "example": "male"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "description": "Pet's birthday",
+            "example": "2022-06-11T11:07:49.000Z"
+          },
+          "breed": {
+            "type": "string",
+            "description": "Type breed of pet",
+            "example": "Border Terrier"
+          },
+          "location": {
+            "type": "string",
+            "description": "location (city, region)",
+            "example": "Lviv,Lviv"
+          },
+          "price": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Sale price of the pet"
+              },
+              {
+                "type": "integer",
+                "nullable": true,
+                "description": "No price for category: \"ingoodhands\" and \"lostfound\""
+              }
+            ],
+            "example": 350
+          },
+          "comments": {
+            "type": "string",
+            "description": "null",
+            "example": "Lorem ipsum dolor sit amet, consectetur Lorem ipsum color sit amet"
+          },
+          "owner": {
+            "type": "string",
+            "format": "uuid",
+            "example": "63df647b3a21961fd722c3c5"
           }
         }
       },
