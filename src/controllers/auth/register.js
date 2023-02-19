@@ -10,8 +10,7 @@ const register = async (req, res) => {
   }
 
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  const avatarURL =
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
+  const avatarURL = 'https://cdn-icons-png.flaticon.com/512/4049/4049793.png';
   await User.create({
     name,
     email,
