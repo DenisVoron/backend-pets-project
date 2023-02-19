@@ -1,6 +1,5 @@
 const { Conflict } = require('http-errors');
 const bcrypt = require('bcryptjs');
-const gravatar = require('gravatar');
 const { User } = require('../../models');
 
 const register = async (req, res) => {
@@ -11,7 +10,8 @@ const register = async (req, res) => {
   }
 
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  const avatarURL = gravatar.url(email);
+  const avatarURL =
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
   await User.create({
     name,
     email,
