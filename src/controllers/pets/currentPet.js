@@ -8,10 +8,6 @@ const currentPet = async (req, res) => {
     owner: _id,
   });
 
-  if (!userPetsList) {
-        throw HttpError(401, 'Unauthorized');
-    };
-
     res.status(200).json({userPetsList});
 };
 
