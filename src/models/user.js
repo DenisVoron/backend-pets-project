@@ -38,6 +38,7 @@ const userSchema = new Schema(
     birthday: {
       type: String,
       match: birthdayRegExp,
+      default: null,
     },
     avatarURL: {
       type: String,
