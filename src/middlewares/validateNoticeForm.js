@@ -3,7 +3,7 @@ const { HttpError } = require('../helpers')
 const {
     joiNoticeForms,
     joiNoticeFormsSell,
-} = require("../models/joiSchemasNotice/joiNoticeForms");
+} = require("../helpers/joiNoticeForms");
 
 const validateNoticeForm = (req, res, next) => {
     try {

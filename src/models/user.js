@@ -1,8 +1,6 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 
-//  /^(?=.{7,63}$)(([0-9A-Za-z]{2,})@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/
-
 const passRegexp = /^(?=.{7,32})([\S])*$/;
 const nameRegexp = /^(?=.{2,16}$)([A-Za-z])*$/;
 const phoneRegexp = /((\+)?\b(8|38)?(0[\d]{2}))([\d-]{5,8})([\d]{2})/;
