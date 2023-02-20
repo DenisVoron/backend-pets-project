@@ -1,7 +1,5 @@
 const { Schema, model } = require('mongoose');
-const Joi = require('joi');
 
-const regexp = /^[a-z ,.'-]+$/i;
 
 const petSchema = new Schema(
   {
@@ -34,17 +32,10 @@ const petSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const joiSchema = Joi.object({
-  name: Joi.string().pattern(regexp).required(),
-  birthday: Joi.string().required(),
-  breed: Joi.string().pattern(regexp).required(),
-  photoPet: Joi.string(),
-  comments: Joi.string().min(10).max(100).required(),
-});
+
 
 const Pet = model('pet', petSchema);
 
 module.exports = {
-  Pet,
-  joiSchema,
+  Pet
 };
