@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { User } = require('../../models');
 
 const register = async (req, res) => {
-  const { name, email, phone, city, password } = req.body;
+  const { name, email, phone, city, password, birthday } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     throw new Conflict('Email in use');
@@ -18,6 +18,7 @@ const register = async (req, res) => {
     city,
     password: hashPassword,
     avatarURL,
+    birthday,
   });
 
   res.status(201).json({
@@ -30,6 +31,7 @@ const register = async (req, res) => {
         phone,
         city,
         avatarURL,
+        birthday,
       },
     },
   });
