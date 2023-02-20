@@ -831,7 +831,7 @@
         }
       }
     },
-    "/users/pet/add": {
+    "/pets/pet/add": {
       "post": {
         "tags": ["Pets"],
         "summary": "Add pets",
@@ -897,7 +897,7 @@
         }
       }
     },
-    "/users/pet/{id}": {
+    "/pets/pet/{id}": {
       "delete": {
         "tags": ["Pets"],
         "summary": "Delete pets",
@@ -990,7 +990,7 @@
         }
     }
     },
-    "/users/pet/current":{
+    "/pets/pet/current":{
       "get":{
         "tags":[
           "User_Pets"
