@@ -1,7 +1,6 @@
 const { Notice } = require('../../models');
 const { uploadToCloudinary } = require('../../helpers');
 
-// додає оголошення
 const addNotice = async (req, res) => {
   const owner = req.user._id;
   console.log(owner);

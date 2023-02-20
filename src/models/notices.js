@@ -54,7 +54,7 @@ const noticeSchema = new Schema(
       required: [true, 'Comments is required'],
     },
     owner: {
-      type: Schema.Types.ObjectId,
+      type: SchemaTypes.ObjectId,
       ref: 'user',
     },
   },

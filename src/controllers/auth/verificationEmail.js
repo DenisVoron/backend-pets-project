@@ -1,5 +1,4 @@
 const { Conflict } = require('http-errors');
-
 const { User } = require('../../models');
 
 const verificationEmail = async (req, res) => {
