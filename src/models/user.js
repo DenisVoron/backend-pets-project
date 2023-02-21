@@ -38,7 +38,7 @@ const userSchema = new Schema(
     birthday: {
       type: String,
       match: birthdayRegExp,
-      default: null,
+      default: '01.01.1900',
     },
     avatarURL: {
       type: String,
