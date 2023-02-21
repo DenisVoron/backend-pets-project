@@ -11,7 +11,7 @@ const {
   joiLoginSchema,
   updateUserSchema,
   joiRefreshSchema,
-} = require('../../models/user');
+} = require('../../helpers/joiSchemas');
 
 const router = express.Router();
 
@@ -20,11 +20,8 @@ router.post(
   validation(joiRegisterSchema),
   ctrlWrapper(ctrl.register)
 );
-
 router.post('/login', validation(joiLoginSchema), ctrlWrapper(ctrl.login));
-
 router.post('/logout', authentication, ctrlWrapper(ctrl.logout));
-
 router.patch(
   '/update',
   authentication,
@@ -32,13 +29,11 @@ router.patch(
   validation(updateUserSchema),
   ctrlWrapper(ctrl.updateUser)
 );
-
 router.post(
   '/refresh',
   validation(joiRefreshSchema),
   ctrlWrapper(ctrl.refreshToken)
 );
-
 router.post('/verification', ctrlWrapper(ctrl.verificationEmail));
 
 module.exports = router;

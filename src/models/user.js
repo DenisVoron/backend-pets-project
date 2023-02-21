@@ -1,13 +1,10 @@
 const { Schema, model } = require('mongoose');
-const Joi = require('joi');
 
 const passRegexp = /^(?=.{7,32})([\S])*$/;
 const nameRegexp = /^(?=.{2,16}$)([A-Za-z])*$/;
 const phoneRegexp = /((\+)?\b(8|38)?(0[\d]{2}))([\d-]{5,8})([\d]{2})/;
-// /^\+38(0\d{9})$/; phoneRegex without " - "
 const cityRegexp = /^([A-Za-z]+)([,][ ][A-Za-z]+)*$/;
-const emailRegexp =
-  /.+@([a-zA-Z]+\.)+[a-zA-z]{2,3}/;
+const emailRegexp = /.+@([a-zA-Z]+\.)+[a-zA-z]{2,3}/;
 const birthdayRegExp =
   /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/;
 
@@ -41,6 +38,7 @@ const userSchema = new Schema(
     birthday: {
       type: String,
       match: birthdayRegExp,
+      default: null,
     },
     avatarURL: {
       type: String,
@@ -58,38 +56,8 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const joiRegisterSchema = Joi.object({
-  password: Joi.string().pattern(passRegexp).required(),
-  email: Joi.string().email().pattern(emailRegexp).required(),
-  name: Joi.string().pattern(nameRegexp).required(),
-  city: Joi.string().required(),
-  phone: Joi.string().pattern(phoneRegexp).required(),
-});
-
-const joiLoginSchema = Joi.object({
-  password: Joi.string().pattern(passRegexp).required(),
-  email: Joi.string().email().pattern(emailRegexp).required(),
-});
-
-const joiRefreshSchema = Joi.object({
-  refreshToken: Joi.string().required(),
-});
-
-const updateUserSchema = Joi.object({
-  name: Joi.string().pattern(nameRegexp),
-  email: Joi.string().email().pattern(emailRegexp),
-  birthday: Joi.string().pattern(birthdayRegExp),
-  phone: Joi.string().pattern(phoneRegexp),
-  city: Joi.string().pattern(cityRegexp),
-  avatarURL: Joi.string(),
-});
-
 const User = model('user', userSchema);
 
 module.exports = {
   User,
-  joiRegisterSchema,
-  joiLoginSchema,
-  updateUserSchema,
-  joiRefreshSchema,
 };

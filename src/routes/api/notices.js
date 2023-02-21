@@ -1,14 +1,13 @@
 const express = require('express');
-const router = express.Router();
-
 const { notices: ctrl } = require('../../controllers');
-
 const {
   authentication,
   upload,
   ctrlWrapper,
   validateNoticeForm,
 } = require('../../middlewares');
+
+const router = express.Router();
 
 router.get('/:category', ctrlWrapper(ctrl.getNoticesByCategory));
 router.get('/id/:id', ctrlWrapper(ctrl.getNoticeById));

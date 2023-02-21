@@ -10,7 +10,7 @@ const updateUser = async (req, res) => {
     try {
       const result = await User.findByIdAndUpdate(
         req.user._id,
-        { avatarURL: avatar.secure_url },
+        { ...req.body, avatarURL: avatar.secure_url },
         { new: true }
       );
       res.json({ result });

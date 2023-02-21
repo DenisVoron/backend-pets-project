@@ -17,7 +17,8 @@ const petSchema = new Schema(
     },
     photoPet: {
       type: String,
-      default: 'https://us.123rf.com/450wm/naddya/naddya1701/naddya170100029/naddya170100029.jpg?ver=6',
+      default:
+        'https://us.123rf.com/450wm/naddya/naddya1701/naddya170100029/naddya170100029.jpg?ver=6',
     },
     comments: {
       type: String,
