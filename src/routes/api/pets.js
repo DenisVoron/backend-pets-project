@@ -5,14 +5,14 @@ const { pets: ctrl } = require('../../controllers');
 
 const { validation, authentication, ctrlWrapper, upload } = require('../../middlewares');
 
-const { joiSchema } = require('../../models/pet');
+const { joiPetSchema } = require('../../helpers');
 
 router.get('/pet/current', authentication, ctrlWrapper(ctrl.currentPet));
 router.post(
   '/pet/add',
   authentication,
   upload.single('photoPet'),
-  validation(joiSchema),
+  validation(joiPetSchema),
   ctrlWrapper(ctrl.addPet)
 );
 router.delete('/pet/:Id', authentication, ctrlWrapper(ctrl.removePet));
