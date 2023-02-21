@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-
 const petSchema = new Schema(
   {
     name: {
@@ -32,8 +31,6 @@ const petSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
-
-
 
 const Pet = model('pet', petSchema);
 
